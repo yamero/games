@@ -24,6 +24,7 @@ public:
 	void removeComponent(class Component* component); // É¾³ý×é¼þ
 	eState getState() const { return state; };
 	float getScale() const { return scale; }
+	void setScale(const float s) { scale = s; }
 	void setPosition(const Vector2& pos) { position = pos; }
 	Vector2 getPosition() const { return position; }
 	float getRotation() const { return rotation; }

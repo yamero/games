@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "BGSpriteComponent.h"
+#include "Ship.h"
 
 const int windowWidth = 1024;
 const int windowHeight = 768;
@@ -53,7 +54,7 @@ void Game::loadData()
 	Actor* bgActor = new Actor(this); // 创建背景角色（背景也可视作游戏的一个角色）
 	bgActor->setPosition(Vector2(windowWidth / 2, windowHeight / 2)); // 设定角色初始位置（角色中心位置）
 
-	BGSpriteComponent* bgSprite = new BGSpriteComponent(bgActor, 1); // 创建构成背景角色的背景精灵组件（每个游戏角色都由各种各样的组件构成）
+	BGSpriteComponent* bgSprite = new BGSpriteComponent(bgActor); // 创建构成背景角色的背景精灵组件（每个游戏角色都由各种各样的组件构成）
 	bgSprite->setScreenSize(Vector2(static_cast<float>(windowWidth), static_cast<float>(windowHeight))); // 设置可见区域大小
 	bgSprite->setScrollSpeed(-100.0f); // 设置背景滚动速度
 	std::vector<SDL_Texture*> bgTextures = {
@@ -62,7 +63,7 @@ void Game::loadData()
 	};
 	bgSprite->setBGTextures(bgTextures); // 设置背景纹理
 
-	BGSpriteComponent* starsBGSprite = new BGSpriteComponent(bgActor, 2); // 创建构成背景角色的星星组件
+	BGSpriteComponent* starsBGSprite = new BGSpriteComponent(bgActor); // 创建构成背景角色的星星组件
 	starsBGSprite->setScreenSize(Vector2(static_cast<float>(windowWidth), static_cast<float>(windowHeight)));
 	starsBGSprite->setScrollSpeed(-100.0f);
 	bgTextures = {
@@ -71,6 +72,9 @@ void Game::loadData()
 	};
 	starsBGSprite->setBGTextures(bgTextures);
 
+	ship = new Ship(this);
+	ship->setPosition(Vector2(100.0f, windowHeight / 2));
+	ship->setScale(1.2f);
 }
 
 // 处理用户输入
@@ -93,6 +97,7 @@ void Game::processInput()
 	{
 		gameIsRunning = false;
 	}
+	ship->processKeyboardInput(state);
 }
 
 // 更新游戏
